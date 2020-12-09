@@ -1,21 +1,25 @@
 import * as React from 'react';
 import {Button, Text, View, StyleSheet,TouchableOpacity} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
-
+import Ionicons from 'react-native-vector-icons/Ionicons';
 // 导入七天趋势预报
 import SevenDayScreen from './seven'
+import CityManage from './city_manege'
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#333'
+        backgroundColor: '#000'
     },
     centerBox: {
-        width: 120,
+        width: 180,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        // borderColor:'#fff',
+        // borderWidth:1,
+        height: 160
     },
     tempSymbol: {
         color: "#fff",
@@ -26,7 +30,7 @@ const styles = StyleSheet.create({
     },
     tempNum: {
         color: "#fff",
-        fontSize: 160,
+        fontSize: 140,
         padding: 0
     },
     tempText: {
@@ -36,7 +40,7 @@ const styles = StyleSheet.create({
     content: {
         width: '100%',
         height: 160,
-        marginTop: 50
+        marginTop: 130
     },
     row: {
         width: '100%',
@@ -46,16 +50,20 @@ const styles = StyleSheet.create({
     },
     col_l: {
         flex: 1,
-        height: 40,
-        paddingLeft: 10,
+        height: 50,
+        paddingLeft: 20,
         justifyContent: 'center',
     },
     col_r: {
         flex: 1,
-        height: 40,
+        height: 50,
         justifyContent: 'center',
-        paddingRight: 20,
+        paddingRight: 30,
         alignItems: 'flex-end'
+    },
+    colText:{
+        color:'#fff',
+        fontSize: 13
     },
     checkMore: {
         position: 'absolute',
@@ -72,7 +80,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 20
+        marginTop: 30
     }
 })
 
@@ -86,23 +94,22 @@ function HomeScreen({navigation}) {
             </View>
             <View style={styles.content}>
                 <View style={styles.row}>
-                    <View style={styles.col_l}><Text style={{color:'#fff'}}>☘️空气76</Text></View>
-                    <View style={styles.col_r}><Text style={{color:'#fff'}}>💧降水概率0%</Text></View>
+                    <View style={styles.col_l}><Text style={styles.colText}>☘️ 空气76</Text></View>
+                    <View style={styles.col_r}><Text style={styles.colText}>💧 降水概率 0%</Text></View>
                 </View>
                 <View style={styles.row}>
-                    <View style={styles.col_l}><Text style={{color:'#fff'}}>☁今天·阴</Text></View>
-                    <View style={styles.col_r}><Text style={{color:'#fff'}}>11℃/9℃</Text></View>
+                    <View style={styles.col_l}><Text style={styles.colText}>☁ 今天·阴</Text></View>
+                    <View style={styles.col_r}><Text style={styles.colText}>11℃ / 9℃</Text></View>
                 </View>
                 <View style={styles.row}>
-                    <View style={styles.col_l}><Text style={{color:'#fff'}}>⛅️明天·晴转多云</Text></View>
-                    <View style={styles.col_r}><Text style={{color:'#fff'}}>11℃/9℃</Text></View>
+                    <View style={styles.col_l}><Text style={styles.colText}>⛅️ 明天·晴转多云</Text></View>
+                    <View style={styles.col_r}><Text style={styles.colText}>11℃ / 9℃</Text></View>
                 </View>
                 <View style={styles.row}>
-                    <View style={styles.col_l}><Text style={{color:'#fff'}}>☀️后天·阴天</Text></View>
-                    <View style={styles.col_r}><Text style={{color:'#fff'}}>11℃/9℃</Text></View>
+                    <View style={styles.col_l}><Text style={styles.colText}>☀️ 后天·阴天</Text></View>
+                    <View style={styles.col_r}><Text style={styles.colText}>11℃ / 9℃</Text></View>
                 </View>
             </View>
-            <Button title="查看近七日天气" onPress={() => navigation.navigate('seven')}/>
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => navigation.navigate('seven')}
@@ -115,13 +122,39 @@ function HomeScreen({navigation}) {
 
 const HomeStack = createStackNavigator();
 
-export default function HomeStackScreen() {
+export default function HomeStackScreen({navigation}) {
     return (
         <HomeStack.Navigator>
-            <HomeStack.Screen options={{title: '余杭区'}}
+            <HomeStack.Screen options={{
+                title: '余杭区',
+                headerStyle: {
+                    backgroundColor: '#000',
+                },
+                headerTintColor: '#fff',
+                headerLeft: () => (
+                    <TouchableOpacity 
+                        onPress={() => navigation.navigate('city_manage')} >
+                        <Ionicons name={'home'} size={18} color={'#fff'} />
+                    </TouchableOpacity>
+                  ),
+                }}
                 name="home"
                 component={HomeScreen}/>
-            <HomeStack.Screen options={{title: ''}} name="seven" component={SevenDayScreen}/>
+            <HomeStack.Screen options={{
+                title: '',
+                headerStyle: {
+                    backgroundColor: '#000',
+                },
+                headerTintColor: '#fff',}} 
+                name="seven" component={SevenDayScreen}/>
+
+            <HomeStack.Screen options={{
+                title: '',
+                headerStyle: {
+                    backgroundColor: '#000',
+                },
+                headerTintColor: '#fff',}} 
+                name="city_manage" component={CityManage}/>
         </HomeStack.Navigator>
     );
 }
