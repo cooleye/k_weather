@@ -48,6 +48,14 @@ const styles = StyleSheet.create({
         left: 15,
         top: 10
     },
+    placeholder:{
+        color:"#999",
+        position:'absolute',
+        top:8,
+        left:40,
+        width:200,
+        fontSize:14
+    },  
     cityList: {
         width: '100%',
         height: '100%',
@@ -110,6 +118,7 @@ export default function CityManageScreen({navigation}) {
                     <View style={styles.searchIcon}>
                         <Ionicons name='search' size={18} color={'#999'}/>
                     </View>
+                    <Text style={styles.placeholder}> 搜索全球天气 </Text>
                 </View>
             </TouchableOpacity>
 

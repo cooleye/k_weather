@@ -1,7 +1,12 @@
 import * as React from 'react';
-import {Button, Text, View, StyleSheet, TextInput} from 'react-native';
+import {Button, Text, View, StyleSheet, TextInput,Dimensions} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+
+// 获取屏幕宽高
+const windowWidth = Dimensions
+    .get('window')
+    .width;
 
 const styles = StyleSheet.create({
     container: {
@@ -18,7 +23,6 @@ const styles = StyleSheet.create({
     searchBox: {
         height: 40,
         borderColor: 'gray',
-        // borderWidth: 1,
         borderRadius: 20,
         display: 'flex',
         position: 'relative',
@@ -36,6 +40,24 @@ const styles = StyleSheet.create({
         position: 'absolute',
         left: 15,
         top: 10
+    },
+    cityList:{
+        display:'flex',
+        flexDirection:'row',
+        flexWrap:'wrap'
+    },
+    cityItem:{
+        backgroundColor: '#333',
+        borderRadius: 30,
+        width:(windowWidth-70)/3,
+        justifyContent:'center',
+        alignItems:'center',
+        padding:10,
+        margin:5
+    },
+    cityName:{
+        color:"#fff",
+        fontSize:12
     }
 })
 
@@ -46,6 +68,8 @@ export default function SearchCityScreen() {
 
     return (
         <View style={styles.container}>
+            
+            {/* 搜索框 */}
             <View style={styles.searchBox}>
                 <View style={styles.searchIcon}>
                     <Ionicons name='search' size={18} color={'#999'}/>
@@ -56,6 +80,23 @@ export default function SearchCityScreen() {
                     placeholderTextColor="#999"
                     onChangeText={text => onChangeText(text)}
                     value={value}/>
+            </View>
+
+            {/* 热门城市列表 */}
+            <View>
+                <Text>热门城市</Text>
+                <View style={styles.cityList}>
+                    <View style={styles.cityItem}><Text style={styles.cityName}>定位</Text></View>
+                    <View style={styles.cityItem}><Text style={styles.cityName}>北京市</Text></View>
+                    <View style={styles.cityItem}><Text style={styles.cityName}>北京市</Text></View>
+                    <View style={styles.cityItem}><Text style={styles.cityName}>北京市</Text></View>
+                    <View style={styles.cityItem}><Text style={styles.cityName}>北京市</Text></View>
+                    <View style={styles.cityItem}><Text style={styles.cityName}>北京市</Text></View>
+                    <View style={styles.cityItem}><Text style={styles.cityName}>北京市</Text></View>
+                    <View style={styles.cityItem}><Text style={styles.cityName}>北京市</Text></View>
+                    <View style={styles.cityItem}><Text style={styles.cityName}>北京市</Text></View>
+                    <View style={styles.cityItem}><Text style={styles.cityName}>北京市</Text></View>
+                </View>
             </View>
 
         </View>
