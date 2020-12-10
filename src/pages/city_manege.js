@@ -1,4 +1,5 @@
 import * as React from 'react';
+import LinearGradient from 'react-native-linear-gradient';
 import {
     Button,
     Text,
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 100,
         borderRadius: 20,
-        backgroundColor: '#33f',
+        // backgroundColor: '#33f',
         marginTop: 10
     },
     cityPos: {
@@ -132,11 +133,14 @@ export default function CityManageScreen({navigation}) {
                                     navigation.navigate("city")
                                 }}
                             >
-                                <View style={styles.cityItem}>
+                            <LinearGradient  style={styles.cityItem} colors={['#2B32B2', '#1488CC' ]} >
+                                <View >
                                     <Text style={styles.cityPos}>景兴录</Text>
                                     <Text style={styles.cityAir}>空气良 11℃~7℃</Text>
                                     <Text style={styles.cityTemp}>9℃</Text>
                                 </View>
+                            </LinearGradient>
+                               
                             </TouchableOpacity>
 
                         ))
@@ -149,9 +153,3 @@ export default function CityManageScreen({navigation}) {
 
     );
 }
-
-// const CityManageStack = createStackNavigator(); export default function
-// CityManageStackScreen() {     return (         <CityManageStack.Navigator>
-//          <CityManageStack.Screen                 options={{title: '111'}}
-//             name="city_manage"                 component={CityManageScreen}/>
-//         </CityManageStack.Navigator>     ); }

@@ -2,6 +2,8 @@ import * as React from 'react';
 import {Button, Text, View, StyleSheet,TouchableOpacity} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+
+import LinearGradient from 'react-native-linear-gradient';
 // 导入七天趋势预报
 import SevenDayScreen from './seven'
 import CityManage from './city_manege'
@@ -14,7 +16,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#000'
+        // backgroundColor: '#000'
     },
     centerBox: {
         width: 180,
@@ -73,7 +75,7 @@ const styles = StyleSheet.create({
         bottom: 0
     },
     button:{
-        backgroundColor: '#333',
+        backgroundColor: 'rgba(255,255,255,0.3)',
         borderRadius: 25,
         width:300,
         height: 50,
@@ -89,37 +91,38 @@ const styles = StyleSheet.create({
 
 function HomeScreen({navigation}) {
     return (
-        <View style={styles.container}>
-            <View style={styles.centerBox}>
-                <Text style={styles.tempSymbol}>℃</Text>
-                <Text style={styles.tempNum}>9</Text>
-                <Text style={styles.tempText}>阴</Text>
-            </View>
-            <View style={styles.content}>
-                <View style={styles.row}>
-                    <View style={styles.col_l}><Text style={styles.colText}>☘️ 空气76</Text></View>
-                    <View style={styles.col_r}><Text style={styles.colText}>💧 降水概率 0%</Text></View>
+        <LinearGradient style={styles.container} colors={['#2B32B2', '#1488CC' ]}>
+
+                <View style={styles.centerBox}>
+                    <Text style={styles.tempSymbol}>℃</Text>
+                    <Text style={styles.tempNum}>9</Text>
+                    <Text style={styles.tempText}>阴</Text>
                 </View>
-                <View style={styles.row}>
-                    <View style={styles.col_l}><Text style={styles.colText}>☁ 今天·阴</Text></View>
-                    <View style={styles.col_r}><Text style={styles.colText}>11℃ / 9℃</Text></View>
+                <View style={styles.content}>
+                    <View style={styles.row}>
+                        <View style={styles.col_l}><Text style={styles.colText}>☘️ 空气76</Text></View>
+                        <View style={styles.col_r}><Text style={styles.colText}>💧 降水概率 0%</Text></View>
+                    </View>
+                    <View style={styles.row}>
+                        <View style={styles.col_l}><Text style={styles.colText}>☁ 今天·阴</Text></View>
+                        <View style={styles.col_r}><Text style={styles.colText}>11℃ / 9℃</Text></View>
+                    </View>
+                    <View style={styles.row}>
+                        <View style={styles.col_l}><Text style={styles.colText}>⛅️ 明天·晴转多云</Text></View>
+                        <View style={styles.col_r}><Text style={styles.colText}>11℃ / 9℃</Text></View>
+                    </View>
+                    <View style={styles.row}>
+                        <View style={styles.col_l}><Text style={styles.colText}>☀️ 后天·阴天</Text></View>
+                        <View style={styles.col_r}><Text style={styles.colText}>11℃ / 9℃</Text></View>
+                    </View>
                 </View>
-                <View style={styles.row}>
-                    <View style={styles.col_l}><Text style={styles.colText}>⛅️ 明天·晴转多云</Text></View>
-                    <View style={styles.col_r}><Text style={styles.colText}>11℃ / 9℃</Text></View>
-                </View>
-                <View style={styles.row}>
-                    <View style={styles.col_l}><Text style={styles.colText}>☀️ 后天·阴天</Text></View>
-                    <View style={styles.col_r}><Text style={styles.colText}>11℃ / 9℃</Text></View>
-                </View>
-            </View>
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => navigation.navigate('seven')}
-            >
-                <Text style={{color:'#aaa',fontSize: 20}}>查看近七日天气</Text>
-            </TouchableOpacity>
-        </View>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => navigation.navigate('seven')}
+                >
+                    <Text style={{color:'#fff',fontSize: 20}}>查看近七日天气</Text>
+                </TouchableOpacity>
+        </LinearGradient> 
     );
 }
 
@@ -131,7 +134,7 @@ export default function HomeStackScreen() {
             <HomeStack.Screen options={({navigation,route}) =>({
                 title: '余杭区',
                 headerStyle: {
-                    backgroundColor: '#000',
+                    backgroundColor: '#2B32B2',
                 },
                 headerTintColor: '#fff',
                 headerLeft: () => (
