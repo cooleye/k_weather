@@ -18,8 +18,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#000'
-        // padding:10
-        // marginTop: 60
     },
     title:{
         fontSize:30,
@@ -27,17 +25,13 @@ const styles = StyleSheet.create({
         color:"#fff"
     },  
     scrollView: {
-        // backgroundColor: 'pink',
         height: 400
-        // marginHorizontal: 20
     },
     dayItem:{
         width: windowWidth/5,
         borderRadius:10,
         height:'100%',
-        // backgroundColor:'#333',
         textAlign:'center',
-        // justifyContent:'center',
         alignItems:'center'
     },
     t1:{
@@ -64,7 +58,6 @@ export default function SevenDayScreen() {
             
             <SafeAreaView >
                 <ScrollView style={styles.scrollView} horizontal={true}>
-                   
                    {list.map(item =>(
                        <View style={styles.dayItem} key={item}>
                             <Text style={styles.t1}>昨天</Text>
@@ -77,9 +70,9 @@ export default function SevenDayScreen() {
                             <Text style={styles.t3}>🌪5级</Text>
                         </View>
                    ))}
-
                 </ScrollView>
             </SafeAreaView>
+
         </View>
     );
 }

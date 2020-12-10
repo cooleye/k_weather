@@ -5,6 +5,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 // 导入七天趋势预报
 import SevenDayScreen from './seven'
 import CityManage from './city_manege'
+// 导入城市天气页面
+import CityScreen from './city'
+import SearchScreen from './search'
 
 const styles = StyleSheet.create({
     container: {
@@ -70,7 +73,7 @@ const styles = StyleSheet.create({
         bottom: 0
     },
     button:{
-        backgroundColor: 'rgba(255,255,255,.2)',
+        backgroundColor: '#333',
         borderRadius: 25,
         width:300,
         height: 50,
@@ -114,7 +117,7 @@ function HomeScreen({navigation}) {
                 style={styles.button}
                 onPress={() => navigation.navigate('seven')}
             >
-                <Text style={{color:'#fff',fontSize: 20}}>查看近七日天气</Text>
+                <Text style={{color:'#aaa',fontSize: 20}}>查看近七日天气</Text>
             </TouchableOpacity>
         </View>
     );
@@ -132,12 +135,12 @@ export default function HomeStackScreen() {
                 },
                 headerTintColor: '#fff',
                 headerLeft: () => (
-                    <TouchableOpacity 
+                    <TouchableOpacity style={{paddingLeft:10}}
                         onPress={() => {
                             console.log('home.....=======>')
                             navigation.navigate('city_manage')
                         }} >
-                        <Ionicons name='home' size={18} color={'#fff'} />
+                        <Ionicons name='add' size={30} color={'#fff'} />
                     </TouchableOpacity>
                   ),
                 })}
@@ -158,6 +161,22 @@ export default function HomeStackScreen() {
                 },
                 headerTintColor: '#fff',}} 
                 name="city_manage" component={CityManage}/>
+
+                <HomeStack.Screen options={{
+                    title: '',
+                    headerStyle: {
+                        backgroundColor: '#000',
+                    },
+                    headerTintColor: '#fff',}} 
+                    name="city" component={CityScreen}/>
+    
+                <HomeStack.Screen options={{
+                    title: '',
+                    headerStyle: {
+                        backgroundColor: '#000',
+                    },
+                    headerTintColor: '#fff',}} 
+                    name="search" component={SearchScreen}/>
         </HomeStack.Navigator>
     );
 }
