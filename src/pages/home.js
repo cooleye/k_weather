@@ -1,29 +1,19 @@
 import * as React from 'react';
-import {Button, Text, View, StyleSheet,TouchableOpacity} from 'react-native';
-import {createStackNavigator} from '@react-navigation/stack';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
+import store from '../store'
+// 渐变颜色
 import LinearGradient from 'react-native-linear-gradient';
-// 导入七天趋势预报
-import SevenDayScreen from './seven'
-import CityManage from './city_manege'
-// 导入城市天气页面
-import CityScreen from './city'
-import SearchScreen from './search'
-
+import {weather} from '../api'
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
-        // backgroundColor: '#000'
+        alignItems: 'center'
     },
     centerBox: {
         width: 180,
         justifyContent: 'center',
         alignItems: 'center',
-        // borderColor:'#fff',
-        // borderWidth:1,
         height: 160
     },
     tempSymbol: {
@@ -51,13 +41,13 @@ const styles = StyleSheet.create({
         width: '100%',
         display: 'flex',
         flexDirection: 'row',
-        height: 40,
+        height: 40
     },
     col_l: {
         flex: 1,
         height: 50,
         paddingLeft: 20,
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
     col_r: {
         flex: 1,
@@ -66,20 +56,20 @@ const styles = StyleSheet.create({
         paddingRight: 30,
         alignItems: 'flex-end'
     },
-    colText:{
-        color:'#fff',
+    colText: {
+        color: '#fff',
         fontSize: 13
     },
     checkMore: {
         position: 'absolute',
         bottom: 0
     },
-    button:{
+    button: {
         backgroundColor: 'rgba(255,255,255,0.3)',
         borderRadius: 25,
-        width:300,
+        width: 300,
         height: 50,
-        color:'#fff',
+        color: '#fff',
         padding: 10,
         textAlign: 'center',
         display: 'flex',
@@ -89,9 +79,49 @@ const styles = StyleSheet.create({
     }
 })
 
-function HomeScreen({navigation}) {
-    return (
-        <LinearGradient style={styles.container} colors={['#2B32B2', '#1488CC' ]}>
+export default class HomeScreen extends React.Component {
+
+    state = {
+        now: {}
+    }
+
+    componentDidMount() {
+        this.getWeather()
+    }
+
+    // 获取本地天气
+    getWeather() {
+
+        // 获取天气之前，判断如果上次上次获取时间超过1个小时，则重新获取
+        // if (store.state.now.updateTime) {
+        //     let now = new Date().getTime()
+        //     let last = new Date(store.state.now.updateTime).getTime()
+        //     let rate = (now - last) / 1000
+        //     if (rate > 10) {
+        //         this.requestWeatherData()
+        //     }
+        // } else {
+        //     this.requestWeatherData()
+        // }
+        this.requestWeatherData()
+    }
+
+    requestWeatherData() {
+        let pos = store.state.position;
+        // fetch('../mock/now.json')
+        //     .then(res => res.json())
+        //     .then(data => {
+        //         console.log(data)
+        //         store.saveNow(data)
+        //         this.setState({
+        //             now: data
+        //         })
+        //     })
+    }
+
+    render() {
+        return (
+            <LinearGradient style={styles.container} colors={['#2B32B2', '#1488CC']}>
 
                 <View style={styles.centerBox}>
                     <Text style={styles.tempSymbol}>℃</Text>
@@ -100,86 +130,34 @@ function HomeScreen({navigation}) {
                 </View>
                 <View style={styles.content}>
                     <View style={styles.row}>
-                        <View style={styles.col_l}><Text style={styles.colText}>☘️ 空气76</Text></View>
-                        <View style={styles.col_r}><Text style={styles.colText}>💧 降水概率 0%</Text></View>
+                        <View style={styles.col_l}>
+                            <Text style={styles.colText}>☘️ 空气76</Text>
+                        </View>
+                        <View style={styles.col_r}>
+                            <Text style={styles.colText}>💧 降水概率 0%</Text>
+                        </View>
                     </View>
+
                     <View style={styles.row}>
-                        <View style={styles.col_l}><Text style={styles.colText}>☁ 今天·阴</Text></View>
-                        <View style={styles.col_r}><Text style={styles.colText}>11℃ / 9℃</Text></View>
+                        <View style={styles.col_l}>
+                            <Text style={styles.colText}>☁ 今天·阴</Text>
+                        </View>
+                        <View style={styles.col_r}>
+                            <Text style={styles.colText}>11℃ / 9℃</Text>
+                        </View>
                     </View>
-                    <View style={styles.row}>
-                        <View style={styles.col_l}><Text style={styles.colText}>⛅️ 明天·晴转多云</Text></View>
-                        <View style={styles.col_r}><Text style={styles.colText}>11℃ / 9℃</Text></View>
-                    </View>
-                    <View style={styles.row}>
-                        <View style={styles.col_l}><Text style={styles.colText}>☀️ 后天·阴天</Text></View>
-                        <View style={styles.col_r}><Text style={styles.colText}>11℃ / 9℃</Text></View>
-                    </View>
+
                 </View>
                 <TouchableOpacity
                     style={styles.button}
-                    onPress={() => navigation.navigate('seven')}
-                >
-                    <Text style={{color:'#fff',fontSize: 20}}>查看近七日天气</Text>
+                    onPress={() => navigation.navigate('seven')}>
+                    <Text
+                        style={{
+                        color: '#fff',
+                        fontSize: 20
+                    }}>查看近七日天气</Text>
                 </TouchableOpacity>
-        </LinearGradient> 
-    );
-}
-
-const HomeStack = createStackNavigator();
-
-export default function HomeStackScreen() {
-    return (
-        <HomeStack.Navigator>
-            <HomeStack.Screen options={({navigation,route}) =>({
-                title: '余杭区',
-                headerStyle: {
-                    backgroundColor: '#2B32B2',
-                },
-                headerTintColor: '#fff',
-                headerLeft: () => (
-                    <TouchableOpacity style={{paddingLeft:10}}
-                        onPress={() => {
-                            console.log('home.....=======>')
-                            navigation.navigate('city_manage')
-                        }} >
-                        <Ionicons name='add' size={30} color={'#fff'} />
-                    </TouchableOpacity>
-                  ),
-                })}
-                name="home"
-                component={HomeScreen}/>
-            <HomeStack.Screen options={{
-                title: '',
-                headerStyle: {
-                    backgroundColor: '#000',
-                },
-                headerTintColor: '#fff',}} 
-                name="seven" component={SevenDayScreen}/>
-
-            <HomeStack.Screen options={{
-                title: '',
-                headerStyle: {
-                    backgroundColor: '#000',
-                },
-                headerTintColor: '#fff',}} 
-                name="city_manage" component={CityManage}/>
-
-                <HomeStack.Screen options={{
-                    title: '',
-                    headerStyle: {
-                        backgroundColor: '#000',
-                    },
-                    headerTintColor: '#fff',}} 
-                    name="city" component={CityScreen}/>
-    
-                <HomeStack.Screen options={{
-                    title: '',
-                    headerStyle: {
-                        backgroundColor: '#000',
-                    },
-                    headerTintColor: '#fff',}} 
-                    name="search" component={SearchScreen}/>
-        </HomeStack.Navigator>
-    );
+            </LinearGradient>
+        )
+    }
 }

@@ -1,7 +1,8 @@
 import * as React from 'react';
-import {Button, Text, View, StyleSheet, TextInput,Dimensions} from 'react-native';
-import {createStackNavigator} from '@react-navigation/stack';
+import {Text, View, StyleSheet, TextInput,Dimensions} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+
+import store from '../store'
 
 // 获取屏幕宽高
 const windowWidth = Dimensions
@@ -87,15 +88,11 @@ export default function SearchCityScreen() {
                 <Text>热门城市</Text>
                 <View style={styles.cityList}>
                     <View style={styles.cityItem}><Text style={styles.cityName}>定位</Text></View>
-                    <View style={styles.cityItem}><Text style={styles.cityName}>北京市</Text></View>
-                    <View style={styles.cityItem}><Text style={styles.cityName}>北京市</Text></View>
-                    <View style={styles.cityItem}><Text style={styles.cityName}>北京市</Text></View>
-                    <View style={styles.cityItem}><Text style={styles.cityName}>北京市</Text></View>
-                    <View style={styles.cityItem}><Text style={styles.cityName}>北京市</Text></View>
-                    <View style={styles.cityItem}><Text style={styles.cityName}>北京市</Text></View>
-                    <View style={styles.cityItem}><Text style={styles.cityName}>北京市</Text></View>
-                    <View style={styles.cityItem}><Text style={styles.cityName}>北京市</Text></View>
-                    <View style={styles.cityItem}><Text style={styles.cityName}>北京市</Text></View>
+                    {
+                        store.state.hotCities.map(city =>(
+                        <View key={city} style={styles.cityItem}><Text style={styles.cityName}>{city}</Text></View>
+                        ))
+                    }
                 </View>
             </View>
 
