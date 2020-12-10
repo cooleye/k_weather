@@ -122,10 +122,10 @@ function HomeScreen({navigation}) {
 
 const HomeStack = createStackNavigator();
 
-export default function HomeStackScreen({navigation}) {
+export default function HomeStackScreen() {
     return (
         <HomeStack.Navigator>
-            <HomeStack.Screen options={{
+            <HomeStack.Screen options={({navigation,route}) =>({
                 title: '余杭区',
                 headerStyle: {
                     backgroundColor: '#000',
@@ -133,11 +133,14 @@ export default function HomeStackScreen({navigation}) {
                 headerTintColor: '#fff',
                 headerLeft: () => (
                     <TouchableOpacity 
-                        onPress={() => navigation.navigate('city_manage')} >
-                        <Ionicons name={'home'} size={18} color={'#fff'} />
+                        onPress={() => {
+                            console.log('home.....=======>')
+                            navigation.navigate('city_manage')
+                        }} >
+                        <Ionicons name='home' size={18} color={'#fff'} />
                     </TouchableOpacity>
                   ),
-                }}
+                })}
                 name="home"
                 component={HomeScreen}/>
             <HomeStack.Screen options={{

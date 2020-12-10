@@ -66,7 +66,7 @@ export default function SevenDayScreen() {
                 <ScrollView style={styles.scrollView} horizontal={true}>
                    
                    {list.map(item =>(
-                       <View style={styles.dayItem}>
+                       <View style={styles.dayItem} key={item}>
                             <Text style={styles.t1}>昨天</Text>
                             <Text style={styles.t2}>12月7日</Text>
                             <Text style={styles.t3}>☁️</Text>
