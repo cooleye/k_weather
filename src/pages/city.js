@@ -1,22 +1,21 @@
 import * as React from 'react';
 import {
-    Button,
     Text,
     View,
     StyleSheet,
-    TextInput,
     Dimensions,
     SafeAreaView,
     ScrollView
 } from 'react-native';
-import {createStackNavigator} from '@react-navigation/stack';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+
+import {sevenDay} from '../api'
+import store from '../store'
+
 
 // 获取屏幕宽高
 const windowWidth = Dimensions
     .get('window')
     .width;
-// const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
     container: {
@@ -56,30 +55,56 @@ const styles = StyleSheet.create({
     }
 })
 
-export default function CityScreen() {
+export default class CityScreen extends React.Component {
 
-    let [list,setList] = React.useState([1,2,3,4,5,6,7])
+    state = {
+        list: [1,2,3,4,5,6,7]
+    }
 
-    return (
-        <View style={styles.container}>
-            <Text style={styles.title}>上海市</Text>
+    componentDidMount(){
+        this.requestCityWeather()
+    }
 
-            <SafeAreaView >
-                <ScrollView style={styles.scrollView} horizontal={true}>
-                   {list.map(item =>(
-                       <View style={styles.dayItem} key={item}>
-                            <Text style={styles.t1}>昨天</Text>
-                            <Text style={styles.t2}>12月7日</Text>
-                            <Text style={styles.t3}>☁️</Text>
-                            <Text style={styles.t3}>12℃</Text>
-                            <Text style={styles.t3}>8℃</Text>
-                            <Text style={styles.t3}>☁️</Text>
-                            <Text style={styles.t3}>阴天</Text>
-                            <Text style={styles.t3}>🌪5级</Text>
-                        </View>
-                   ))}
-                </ScrollView>
-            </SafeAreaView>
-        </View>
-    );
+    requestCityWeather(){
+        fetch(sevenDay())
+        .then(res => res.json())
+        .then(data =>{
+            this.setState({
+                list: data.daily
+            })
+        })
+    }
+    getWeekText(index){
+        let weeks = ['日','一','二','三','四','五','六']
+        return weeks[index];
+    }
+
+    render(){
+
+        let { list } = this.state;
+
+        return (
+            <View style={styles.container}>
+                <Text style={styles.title}>上海市</Text>
+    
+                <SafeAreaView >
+                    <ScrollView style={styles.scrollView} horizontal={true}>
+                    {list.map(item =>(
+                           <View style={styles.dayItem} key={item.fxDate}>
+                                <Text style={styles.t1}>{ '周' +  this.getWeekText(new Date(`${item.fxDate}`).getDay()) }</Text>
+                                <Text style={styles.t2}>{item.fxDate}</Text>
+                                <Text style={styles.t3}>☁️</Text>
+                                <Text style={styles.t3}>{item.tempMax}℃</Text>
+                                <Text style={styles.t3}>{item.tempMin}℃</Text>
+                                <Text style={styles.t3}>☁️</Text>
+                                <Text style={styles.t3}>{item.textDay}</Text>
+                                <Text style={styles.t3}>🌪 {item.windDirDay}</Text>
+                            </View>
+                       ))}
+                    </ScrollView>
+                </SafeAreaView>
+            </View>
+        );
+    }
+    
 }

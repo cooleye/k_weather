@@ -13,7 +13,7 @@ import {
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import {createStackNavigator} from '@react-navigation/stack';
+import store from '../store'
 
 const styles = StyleSheet.create({
     container: {
@@ -94,62 +94,66 @@ const styles = StyleSheet.create({
     }
 })
 
-export default function CityManageScreen({navigation}) {
+export default class  extends React.Component {
 
-    const [list,
-        setList] = React.useState([
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8
-    ]);
+    state = {
+        list:[]
+    }
 
-    return (
-        <View style={styles.container}>
-            <Text style={styles.title}>城市管理</Text>
-            <TouchableOpacity
-                onPress={() => {
-                navigation.navigate("search")
-            }}>
-                <View style={styles.searchBox}>
-                    <View style={styles.searchIcon}>
-                        <Ionicons name='search' size={18} color={'#999'}/>
+    componentDidMount(){
+        this.setState({
+            list: store.state.cities
+        })
+    }
+
+    render(){
+
+        let {list} = this.state;
+        let {navigation} = this.props;
+        return (
+            <View style={styles.container}>
+                <Text style={styles.title}>城市管理</Text>
+                <TouchableOpacity
+                    onPress={() => {
+                    navigation.navigate("search")
+                }}>
+                    <View style={styles.searchBox}>
+                        <View style={styles.searchIcon}>
+                            <Ionicons name='search' size={18} color={'#999'}/>
+                        </View>
+                        <Text style={styles.placeholder}> 搜索全球天气 </Text>
                     </View>
-                    <Text style={styles.placeholder}> 搜索全球天气 </Text>
+                </TouchableOpacity>
+    
+                <View style={styles.cityList}>
+                    <SafeAreaView>
+                        <ScrollView style={styles.scrollView}>
+                            {list.map(item => (
+                                <TouchableOpacity 
+                                    key={item.id}
+                                    onPress={()=>{
+                                        navigation.navigate("city")
+                                    }}
+                                >
+                                <LinearGradient  style={styles.cityItem} colors={['#2B32B2', '#1488CC' ]} >
+                                    <View >
+                                <Text style={styles.cityPos}>{item.name}</Text>
+                                <Text style={styles.cityAir}>{item.category} {item.maxTemp}℃~{item.minTemp}℃</Text>
+                                        <Text style={styles.cityTemp}>{item.temp}℃</Text>
+                                    </View>
+                                </LinearGradient>
+                                   
+                                </TouchableOpacity>
+    
+                            ))
+    }
+                        </ScrollView>
+                    </SafeAreaView>
+    
                 </View>
-            </TouchableOpacity>
-
-            <View style={styles.cityList}>
-                <SafeAreaView>
-                    <ScrollView style={styles.scrollView}>
-                        {list.map(item => (
-                            <TouchableOpacity 
-                                key={item}
-                                onPress={()=>{
-                                    navigation.navigate("city")
-                                }}
-                            >
-                            <LinearGradient  style={styles.cityItem} colors={['#2B32B2', '#1488CC' ]} >
-                                <View >
-                                    <Text style={styles.cityPos}>景兴录</Text>
-                                    <Text style={styles.cityAir}>空气良 11℃~7℃</Text>
-                                    <Text style={styles.cityTemp}>9℃</Text>
-                                </View>
-                            </LinearGradient>
-                               
-                            </TouchableOpacity>
-
-                        ))
-}
-                    </ScrollView>
-                </SafeAreaView>
-
             </View>
-        </View>
-
-    );
+    
+        );
+    }
+    
 }
