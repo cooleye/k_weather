@@ -8,6 +8,8 @@ import {
     ScrollView
 } from 'react-native';
 
+import store from '../store'
+import {sevenDay} from '../api'
 // 获取屏幕宽高
 const windowWidth = Dimensions
     .get('window')
@@ -39,7 +41,7 @@ const styles = StyleSheet.create({
         color:"#fff"
     },
     t2:{
-        fontSize:12,
+        fontSize:8,
         color:"#fff"
     },
     t3:{
@@ -48,31 +50,59 @@ const styles = StyleSheet.create({
         marginTop:20
     }
 });
-export default function SevenDayScreen() {
 
-    let [list,setList] = React.useState([1,2,3,4,5,6,7])
+export default class SevenDayScreen extends React.Component{
 
-    return (
-        <View style={styles.container}>
-            <Text style={styles.title}>七天趋势预报</Text>
-            
-            <SafeAreaView >
-                <ScrollView style={styles.scrollView} horizontal={true}>
-                   {list.map(item =>(
-                       <View style={styles.dayItem} key={item}>
-                            <Text style={styles.t1}>昨天</Text>
-                            <Text style={styles.t2}>12月7日</Text>
-                            <Text style={styles.t3}>☁️</Text>
-                            <Text style={styles.t3}>12℃</Text>
-                            <Text style={styles.t3}>8℃</Text>
-                            <Text style={styles.t3}>☁️</Text>
-                            <Text style={styles.t3}>阴天</Text>
-                            <Text style={styles.t3}>🌪5级</Text>
-                        </View>
-                   ))}
-                </ScrollView>
-            </SafeAreaView>
+    state = {
+        list:[1,2,3,4,,5,6,7]
+    }
 
-        </View>
-    );
+    componentDidMount(){
+        this.requestSevenDay()
+    }
+
+    requestSevenDay(){
+        fetch(sevenDay())
+        .then(res => res.json())
+        .then(data => {
+            this.setState({
+                list: data.daily
+            })
+        })
+    }
+
+    getWeekText(index){
+        let weeks = ['日','一','二','三','四','五','六']
+        return weeks[index];
+    }
+    
+    render(){
+
+        let { list } = this.state;
+
+        return (
+            <View style={styles.container}>
+                <Text style={styles.title}>七天趋势预报</Text>
+                
+                <SafeAreaView >
+                    <ScrollView style={styles.scrollView} horizontal={true}>
+                       {list.map(item =>(
+                           <View style={styles.dayItem} key={item.fxDate}>
+                                <Text style={styles.t1}>{ '周' +  this.getWeekText(new Date(`${item.fxDate}`).getDay()) }</Text>
+                                <Text style={styles.t2}>{item.fxDate}</Text>
+                                <Text style={styles.t3}>☁️</Text>
+                                <Text style={styles.t3}>{item.tempMax}℃</Text>
+                                <Text style={styles.t3}>{item.tempMin}℃</Text>
+                                <Text style={styles.t3}>☁️</Text>
+                                <Text style={styles.t3}>{item.textDay}</Text>
+                                <Text style={styles.t3}>🌪 {item.windDirDay}</Text>
+                            </View>
+                       ))}
+                    </ScrollView>
+                </SafeAreaView>
+    
+            </View>
+        );
+    }
+    
 }

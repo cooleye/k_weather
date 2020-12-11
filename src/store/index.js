@@ -8,6 +8,7 @@ const store = {
         // 所在位置
         address:"欧美金融城🇬🇧中心T6",
         now:{},
+        air:{}, //空气质量
         // 三天的天气
         threeDay:{
 
@@ -28,6 +29,9 @@ const store = {
     },
     saveNow(now){
         this.state.now = now
+    },
+    saveAir(data){
+        this.state.air = data
     }
 
 
