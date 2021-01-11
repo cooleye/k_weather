@@ -90,7 +90,7 @@ export default function SearchCityScreen() {
                     <View style={styles.cityItem}><Text style={styles.cityName}>定位</Text></View>
                     {
                         store.state.hotCities.map(city =>(
-                        <View key={city} style={styles.cityItem}><Text style={styles.cityName}>{city}</Text></View>
+                        <View key={city.id} style={styles.cityItem}><Text style={styles.cityName}>{city}</Text></View>
                         ))
                     }
                 </View>
